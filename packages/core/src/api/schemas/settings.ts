@@ -36,7 +36,7 @@ const marketplaceRegistry = z.object({
 		.string()
 		.url()
 		.refine((url) => isValidMarketplaceUrl(url), {
-			message: "Marketplace URL must use HTTPS or localhost HTTP",
+			message: "Marketplace URL must use HTTPS, or localhost HTTP during local development",
 		}),
 });
 

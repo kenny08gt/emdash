@@ -65,6 +65,7 @@ describe("MarketplaceSettings", () => {
 			</Wrapper>,
 		);
 		await expect.element(screen.getByText("Marketplace Settings")).toBeInTheDocument();
+		await expect.element(screen.getByText("Security notice")).toBeInTheDocument();
 		await expect.element(screen.getByText("Official")).toBeInTheDocument();
 		await expect.element(screen.getByText("https://marketplace.emdashcms.com")).toBeInTheDocument();
 	});
@@ -87,7 +88,11 @@ describe("MarketplaceSettings", () => {
 		await screen.getByRole("button", { name: "Add" }).click();
 
 		await expect
-			.element(screen.getByText("Marketplace URL must use HTTPS or localhost HTTP"))
+			.element(
+				screen.getByText(
+					"Marketplace URL must use HTTPS, or localhost HTTP during local development",
+				),
+			)
 			.toBeInTheDocument();
 	});
 

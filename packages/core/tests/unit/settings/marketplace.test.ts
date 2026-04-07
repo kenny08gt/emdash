@@ -21,13 +21,17 @@ describe("marketplace settings resolution", () => {
 			expect(isValidMarketplaceUrl("https://marketplace.emdashcms.com")).toBe(true);
 		});
 
-		it("accepts localhost http URLs", () => {
-			expect(isValidMarketplaceUrl("http://localhost:8787")).toBe(true);
-			expect(isValidMarketplaceUrl("http://127.0.0.1:8787")).toBe(true);
+		it("accepts localhost http URLs only when explicitly allowed", () => {
+			expect(isValidMarketplaceUrl("http://localhost:8787", true)).toBe(true);
+			expect(isValidMarketplaceUrl("http://127.0.0.1:8787", true)).toBe(true);
 		});
 
 		it("rejects non-localhost http URLs", () => {
 			expect(isValidMarketplaceUrl("http://example.com")).toBe(false);
+		});
+
+		it("rejects localhost http URLs when localhost is not allowed", () => {
+			expect(isValidMarketplaceUrl("http://localhost:8787", false)).toBe(false);
 		});
 	});
 

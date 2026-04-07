@@ -11,13 +11,13 @@ function isLocalMarketplaceHost(hostname: string): boolean {
 /**
  * Validate a marketplace URL using the same policy as integration config:
  * - HTTPS required in general
- * - HTTP allowed only for localhost/127.0.0.1
+ * - HTTP allowed only for localhost/127.0.0.1 during development
  */
-export function isValidMarketplaceUrl(url: string): boolean {
+export function isValidMarketplaceUrl(url: string, allowLocalhost = import.meta.env.DEV): boolean {
 	try {
 		const parsed = new URL(url);
 		if (parsed.protocol === "https:") return true;
-		return parsed.protocol === "http:" && isLocalMarketplaceHost(parsed.hostname);
+		return allowLocalhost && parsed.protocol === "http:" && isLocalMarketplaceHost(parsed.hostname);
 	} catch {
 		return false;
 	}

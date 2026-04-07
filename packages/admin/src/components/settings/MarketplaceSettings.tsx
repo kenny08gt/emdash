@@ -11,18 +11,23 @@ function createRegistryId(): string {
 	return `registry_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function isLocalEnvironment(): boolean {
+	if (typeof window === "undefined") return false;
+	return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+}
+
 interface MarketplaceRegistryForm {
 	id: string;
 	label: string;
 	url: string;
 }
 
-function isValidMarketplaceUrl(url: string): boolean {
+function isValidMarketplaceUrl(url: string, allowLocalhost = isLocalEnvironment()): boolean {
 	try {
 		const parsed = new URL(url);
 		if (parsed.protocol === "https:") return true;
 		const isLocalhost = parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1";
-		return parsed.protocol === "http:" && isLocalhost;
+		return allowLocalhost && parsed.protocol === "http:" && isLocalhost;
 	} catch {
 		return false;
 	}
@@ -78,7 +83,7 @@ export function MarketplaceSettings() {
 			return;
 		}
 		if (!isValidMarketplaceUrl(url)) {
-			setLocalError("Marketplace URL must use HTTPS or localhost HTTP");
+			setLocalError("Marketplace URL must use HTTPS, or localhost HTTP during local development");
 			return;
 		}
 		const id = createRegistryId();
@@ -143,6 +148,19 @@ export function MarketplaceSettings() {
 				Configure one or more marketplace registries and choose which one is active for plugin and
 				theme browsing.
 			</p>
+
+			<div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+				<p className="font-medium">Security notice</p>
+				<p className="mt-1">
+					Only use the official EmDash marketplace URL or registries you fully trust. Marketplace
+					requests are made by your server, so an untrusted registry can control metadata, downloads,
+					and update responses.
+				</p>
+				<p className="mt-2">
+					Use HTTPS for production registries. Localhost HTTP URLs are intended only for local
+					development.
+				</p>
+			</div>
 
 			{saveStatus && (
 				<div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-200">
