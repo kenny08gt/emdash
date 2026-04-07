@@ -65,7 +65,10 @@ describe("MarketplaceSettings", () => {
 			</Wrapper>,
 		);
 		await expect.element(screen.getByText("Marketplace Settings")).toBeInTheDocument();
+		await expect.element(screen.getByText("How registry selection works")).toBeInTheDocument();
 		await expect.element(screen.getByText("Security notice")).toBeInTheDocument();
+		await expect.element(screen.getByText("Select the active marketplace")).toBeInTheDocument();
+		await expect.element(screen.getByText("Active")).toBeInTheDocument();
 		await expect.element(screen.getByText("Official")).toBeInTheDocument();
 		await expect.element(screen.getByText("https://marketplace.emdashcms.com")).toBeInTheDocument();
 	});

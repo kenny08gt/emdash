@@ -149,6 +149,14 @@ export function MarketplaceSettings() {
 				theme browsing.
 			</p>
 
+			<div className="rounded-lg border border-kumo-border bg-kumo-base p-4 text-sm text-kumo-foreground">
+				<p className="font-medium">How registry selection works</p>
+				<p className="mt-1 text-kumo-subtle">
+					Only one marketplace is active at a time. EmDash fetches plugin and theme listings from
+					the selected registry only, and does not merge results across multiple registries.
+				</p>
+			</div>
+
 			<div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
 				<p className="font-medium">Security notice</p>
 				<p className="mt-1">
@@ -210,6 +218,14 @@ export function MarketplaceSettings() {
 									No registries configured yet. Add one to enable marketplace browsing.
 								</p>
 							)}
+							{registries.length > 0 && (
+								<div className="space-y-1">
+									<p className="text-sm font-medium">Select the active marketplace</p>
+									<p className="text-sm text-kumo-subtle">
+										The selected registry is the only one used for plugin and theme browsing.
+									</p>
+								</div>
+							)}
 							{registries.map((registry) => (
 								<div
 									key={registry.id}
@@ -224,7 +240,14 @@ export function MarketplaceSettings() {
 											className="mt-1"
 										/>
 										<div className="min-w-0">
-											<p className="font-medium">{registry.label}</p>
+											<div className="flex items-center gap-2">
+												<p className="font-medium">{registry.label}</p>
+												{activeRegistryId === registry.id && (
+													<span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-950/40 dark:text-blue-200">
+														Active
+													</span>
+												)}
+											</div>
 											<p className="text-sm text-kumo-subtle break-all">{registry.url}</p>
 										</div>
 									</label>
