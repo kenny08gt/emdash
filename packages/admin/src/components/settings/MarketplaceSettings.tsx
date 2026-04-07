@@ -157,7 +157,7 @@ export function MarketplaceSettings() {
 				</p>
 			</div>
 
-			<div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+			<div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">
 				<p className="font-medium">Security notice</p>
 				<p className="mt-1">
 					Only use the official EmDash marketplace URL or registries you fully trust. Marketplace
@@ -171,7 +171,7 @@ export function MarketplaceSettings() {
 			</div>
 
 			{saveStatus && (
-				<div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-200">
+				<div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">
 					<CheckCircle className="h-4 w-4 flex-shrink-0" />
 					{saveStatus}
 				</div>
@@ -243,7 +243,7 @@ export function MarketplaceSettings() {
 											<div className="flex items-center gap-2">
 												<p className="font-medium">{registry.label}</p>
 												{activeRegistryId === registry.id && (
-													<span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-950/40 dark:text-blue-200">
+													<span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
 														Active
 													</span>
 												)}
