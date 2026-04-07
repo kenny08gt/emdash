@@ -9,6 +9,7 @@ import type { APIRoute } from "astro";
 import { requirePerm } from "#api/authorize.js";
 import { apiError, unwrapResult } from "#api/error.js";
 import { handleThemeGetDetail } from "#api/index.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -26,8 +27,9 @@ export const GET: APIRoute = async ({ params, locals }) => {
 	if (!id) {
 		return apiError("INVALID_REQUEST", "Theme ID required", 400);
 	}
+	const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 
-	const result = await handleThemeGetDetail(emdash.config.marketplace, id);
+	const result = await handleThemeGetDetail(marketplaceUrl, id);
 
 	return unwrapResult(result);
 };

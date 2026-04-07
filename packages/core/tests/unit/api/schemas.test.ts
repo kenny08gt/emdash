@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { contentUpdateBody, httpUrl } from "../../../src/api/schemas/index.js";
+import { contentUpdateBody, httpUrl, settingsUpdateBody } from "../../../src/api/schemas/index.js";
 
 describe("contentUpdateBody schema", () => {
 	it("should pass through skipRevision when present", () => {
@@ -52,5 +52,53 @@ describe("httpUrl validator", () => {
 
 	it("is case-insensitive for scheme", () => {
 		expect(httpUrl.parse("HTTPS://EXAMPLE.COM")).toBe("HTTPS://EXAMPLE.COM");
+	});
+});
+
+describe("settingsUpdateBody marketplace validation", () => {
+	it("accepts marketplace registries with https URLs", () => {
+		const parsed = settingsUpdateBody.parse({
+			marketplace: {
+				registries: [
+					{
+						id: "official",
+						label: "Official",
+						url: "https://marketplace.emdashcms.com",
+					},
+				],
+				activeRegistryId: "official",
+			},
+		});
+		expect(parsed.marketplace?.registries[0]?.url).toBe("https://marketplace.emdashcms.com");
+	});
+
+	it("accepts localhost http URLs for development", () => {
+		const parsed = settingsUpdateBody.parse({
+			marketplace: {
+				registries: [{ id: "local", label: "Local", url: "http://localhost:8787" }],
+			},
+		});
+		expect(parsed.marketplace?.registries[0]?.url).toBe("http://localhost:8787");
+	});
+
+	it("rejects non-localhost http URLs", () => {
+		expect(() =>
+			settingsUpdateBody.parse({
+				marketplace: {
+					registries: [{ id: "bad", label: "Bad", url: "http://example.com" }],
+				},
+			}),
+		).toThrow();
+	});
+
+	it("rejects activeRegistryId that does not exist in registries", () => {
+		expect(() =>
+			settingsUpdateBody.parse({
+				marketplace: {
+					registries: [{ id: "official", label: "Official", url: "https://example.com" }],
+					activeRegistryId: "missing",
+				},
+			}),
+		).toThrow();
 	});
 });

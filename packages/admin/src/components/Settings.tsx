@@ -6,6 +6,7 @@ import {
 	Globe,
 	Key,
 	Envelope,
+	Storefront,
 	CaretRight,
 } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
@@ -106,6 +107,12 @@ export function Settings() {
 					icon={<Envelope className="h-5 w-5" />}
 					title="Email"
 					description="View email provider status and send test emails"
+				/>
+				<SettingsLink
+					to="/settings/marketplace"
+					icon={<Storefront className="h-5 w-5" />}
+					title="Marketplace"
+					description="Manage plugin/theme marketplace registries and active source"
 				/>
 			</div>
 		</div>

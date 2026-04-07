@@ -9,6 +9,7 @@ import type { APIRoute } from "astro";
 import { requirePerm } from "#api/authorize.js";
 import { apiError, unwrapResult } from "#api/error.js";
 import { handlePluginList } from "#api/index.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -21,12 +22,9 @@ export const GET: APIRoute = async ({ locals }) => {
 
 	const denied = requirePerm(user, "plugins:read");
 	if (denied) return denied;
+	const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 
-	const result = await handlePluginList(
-		emdash.db,
-		emdash.configuredPlugins,
-		emdash.config.marketplace,
-	);
+	const result = await handlePluginList(emdash.db, emdash.configuredPlugins, marketplaceUrl);
 
 	return unwrapResult(result);
 };

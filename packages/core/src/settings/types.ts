@@ -24,6 +24,24 @@ export interface SeoSettings {
 	bingVerification?: string;
 }
 
+/** Marketplace registry entry */
+export interface MarketplaceRegistry {
+	/** Stable identifier for selecting this registry as active */
+	id: string;
+	/** Human-readable label shown in admin UI */
+	label: string;
+	/** Marketplace base URL (e.g. https://marketplace.emdashcms.com) */
+	url: string;
+}
+
+/** Marketplace configuration stored in site settings */
+export interface MarketplaceSettings {
+	/** Available registry entries */
+	registries: MarketplaceRegistry[];
+	/** Selected active registry ID */
+	activeRegistryId?: string;
+}
+
 /** Site settings schema */
 export interface SiteSettings {
 	// Identity
@@ -52,6 +70,9 @@ export interface SiteSettings {
 
 	// SEO
 	seo?: SeoSettings;
+
+	// Marketplace
+	marketplace?: MarketplaceSettings;
 }
 
 /** Keys that are valid site settings */

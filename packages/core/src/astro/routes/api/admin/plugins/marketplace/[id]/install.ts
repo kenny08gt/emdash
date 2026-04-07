@@ -11,6 +11,7 @@ import { requirePerm } from "#api/authorize.js";
 import { apiError, handleError, unwrapResult } from "#api/error.js";
 import { handleMarketplaceInstall } from "#api/index.js";
 import { isParseError, parseOptionalBody } from "#api/parse.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -40,12 +41,13 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 		const configuredPluginIds = new Set<string>(
 			emdash.configuredPlugins.map((p: { id: string }) => p.id),
 		);
+		const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 
 		const result = await handleMarketplaceInstall(
 			emdash.db,
 			emdash.storage,
 			emdash.getSandboxRunner(),
-			emdash.config.marketplace,
+			marketplaceUrl,
 			id,
 			{ version: body.version, configuredPluginIds },
 		);

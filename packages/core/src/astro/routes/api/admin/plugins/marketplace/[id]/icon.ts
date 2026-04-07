@@ -11,6 +11,7 @@ import type { APIRoute } from "astro";
 
 import { requirePerm } from "#api/authorize.js";
 import { apiError } from "#api/error.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -25,7 +26,7 @@ export const GET: APIRoute = async ({ params, url, locals }) => {
 	const denied = requirePerm(user, "plugins:read");
 	if (denied) return denied;
 
-	const marketplaceUrl = emdash.config.marketplace;
+	const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 	if (!marketplaceUrl || !id) {
 		return apiError("NOT_CONFIGURED", "Marketplace not configured", 400);
 	}

@@ -130,10 +130,9 @@ export interface AdminManifest {
 		locales: string[];
 	};
 	/**
-	 * Marketplace registry URL. Present when `marketplace` is configured
-	 * in the EmDash integration. Enables marketplace features in the UI.
+	 * Whether marketplace browsing/install features are enabled.
 	 */
-	marketplace?: string;
+	marketplace?: boolean;
 }
 
 /**

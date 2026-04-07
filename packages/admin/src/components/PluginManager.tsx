@@ -44,7 +44,7 @@ import { CapabilityConsentDialog } from "./CapabilityConsentDialog.js";
 import { DialogError, getMutationError } from "./DialogError.js";
 
 export interface PluginManagerProps {
-	/** Admin manifest — used to check if marketplace is configured */
+	/** Admin manifest — used to check if marketplace features are enabled */
 	manifest?: AdminManifest;
 }
 

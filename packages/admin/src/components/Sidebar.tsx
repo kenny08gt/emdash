@@ -51,7 +51,7 @@ export interface SidebarNavProps {
 			}
 		>;
 		version?: string;
-		marketplace?: string;
+		marketplace?: boolean;
 	};
 }
 

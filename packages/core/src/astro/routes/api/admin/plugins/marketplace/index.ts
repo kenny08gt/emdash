@@ -9,6 +9,7 @@ import type { APIRoute } from "astro";
 import { requirePerm } from "#api/authorize.js";
 import { apiError, unwrapResult } from "#api/error.js";
 import { handleMarketplaceSearch } from "#api/index.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -27,8 +28,9 @@ export const GET: APIRoute = async ({ url, locals }) => {
 	const cursor = url.searchParams.get("cursor") ?? undefined;
 	const limitParam = url.searchParams.get("limit");
 	const limit = limitParam ? Math.min(Math.max(1, parseInt(limitParam, 10) || 50), 100) : undefined;
+	const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 
-	const result = await handleMarketplaceSearch(emdash.config.marketplace, query, {
+	const result = await handleMarketplaceSearch(marketplaceUrl, query, {
 		category,
 		cursor,
 		limit,

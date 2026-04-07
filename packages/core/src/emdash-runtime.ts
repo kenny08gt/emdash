@@ -141,6 +141,7 @@ import type { CronScheduler } from "./plugins/scheduler/types.js";
 import { PluginStateRepository } from "./plugins/state.js";
 import { getRequestContext } from "./request-context.js";
 import { FTSManager } from "./search/fts-manager.js";
+import { resolveMarketplaceUrl } from "./settings/marketplace.js";
 
 /**
  * Map schema field types to editor field kinds
@@ -454,7 +455,7 @@ export class EmDashRuntime {
 	 * current worker: loads newly active plugins and removes uninstalled ones.
 	 */
 	async syncMarketplacePlugins(): Promise<void> {
-		if (!this.config.marketplace || !this.storage) return;
+		if (!this.storage) return;
 		if (!sandboxRunner || !sandboxRunner.isAvailable()) return;
 
 		try {
@@ -679,7 +680,7 @@ export class EmDashRuntime {
 		const sandboxedPlugins = await EmDashRuntime.loadSandboxedPlugins(deps, db);
 
 		// Cold-start: load marketplace-installed plugins from site R2
-		if (deps.config.marketplace && storage) {
+		if (storage) {
 			await EmDashRuntime.loadMarketplacePlugins(db, storage, deps, sandboxedPlugins);
 		}
 
@@ -1305,6 +1306,7 @@ export class EmDashRuntime {
 			isI18nEnabled() && i18nConfig
 				? { defaultLocale: i18nConfig.defaultLocale, locales: i18nConfig.locales }
 				: undefined;
+		const marketplaceUrl = await resolveMarketplaceUrl(this.db, this.config.marketplace);
 
 		return {
 			version: "0.1.0",
@@ -1313,7 +1315,7 @@ export class EmDashRuntime {
 			plugins: manifestPlugins,
 			authMode: authModeValue,
 			i18n,
-			marketplace: !!this.config.marketplace,
+			marketplace: !!marketplaceUrl,
 		};
 	}
 

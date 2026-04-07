@@ -203,9 +203,7 @@ describe("PluginManager", () => {
 	it("shows Marketplace link when manifest has marketplace URL", async () => {
 		const screen = await render(
 			<Wrapper>
-				<PluginManager
-					manifest={makeManifest({ marketplace: "https://marketplace.emdashcms.com" })}
-				/>
+				<PluginManager manifest={makeManifest({ marketplace: true })} />
 			</Wrapper>,
 		);
 		await expect.element(screen.getByText("Audit Log")).toBeInTheDocument();
@@ -346,9 +344,7 @@ describe("PluginManager", () => {
 		mockFetchPlugins.mockResolvedValue([]);
 		const screen = await render(
 			<Wrapper>
-				<PluginManager
-					manifest={makeManifest({ marketplace: "https://marketplace.emdashcms.com" })}
-				/>
+				<PluginManager manifest={makeManifest({ marketplace: true })} />
 			</Wrapper>,
 		);
 		await expect.element(screen.getByText("No plugins configured")).toBeInTheDocument();

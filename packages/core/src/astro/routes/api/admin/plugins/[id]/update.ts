@@ -11,6 +11,7 @@ import { requirePerm } from "#api/authorize.js";
 import { apiError, unwrapResult } from "#api/error.js";
 import { handleMarketplaceUpdate } from "#api/index.js";
 import { isParseError, parseOptionalBody } from "#api/parse.js";
+import { resolveMarketplaceUrl } from "#settings/marketplace.js";
 
 export const prerender = false;
 
@@ -37,12 +38,13 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 
 	const body = await parseOptionalBody(request, updateBodySchema, {});
 	if (isParseError(body)) return body;
+	const marketplaceUrl = await resolveMarketplaceUrl(emdash.db, emdash.config.marketplace);
 
 	const result = await handleMarketplaceUpdate(
 		emdash.db,
 		emdash.storage,
 		emdash.getSandboxRunner(),
-		emdash.config.marketplace,
+		marketplaceUrl,
 		id,
 		{
 			version: body.version,

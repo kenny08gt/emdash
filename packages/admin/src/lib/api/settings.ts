@@ -5,6 +5,16 @@
 import { API_BASE, apiFetch, parseApiResponse } from "./client.js";
 
 export interface SiteSettings {
+	// Marketplace
+	marketplace?: {
+		registries: Array<{
+			id: string;
+			label: string;
+			url: string;
+		}>;
+		activeRegistryId?: string;
+	};
+
 	// Identity
 	title: string;
 	tagline?: string;

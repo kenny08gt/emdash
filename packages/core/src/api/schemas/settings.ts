@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { isValidMarketplaceUrl } from "../../settings/marketplace.js";
 import { httpUrl } from "./common.js";
 
 // ---------------------------------------------------------------------------
@@ -28,6 +29,32 @@ const seoSettings = z.object({
 	bingVerification: z.string().max(100).optional(),
 });
 
+const marketplaceRegistry = z.object({
+	id: z.string().min(1),
+	label: z.string().min(1),
+	url: z
+		.string()
+		.url()
+		.refine((url) => isValidMarketplaceUrl(url), {
+			message: "Marketplace URL must use HTTPS or localhost HTTP",
+		}),
+});
+
+const marketplaceSettings = z
+	.object({
+		registries: z.array(marketplaceRegistry).max(20),
+		activeRegistryId: z.string().optional(),
+	})
+	.refine(
+		(data) =>
+			!data.activeRegistryId ||
+			data.registries.some((registry) => registry.id === data.activeRegistryId),
+		{
+			message: "activeRegistryId must match a registry id",
+			path: ["activeRegistryId"],
+		},
+	);
+
 export const settingsUpdateBody = z
 	.object({
 		title: z.string().optional(),
@@ -40,6 +67,7 @@ export const settingsUpdateBody = z
 		timezone: z.string().optional(),
 		social: socialSettings.optional(),
 		seo: seoSettings.optional(),
+		marketplace: marketplaceSettings.optional(),
 	})
 	.meta({ id: "SettingsUpdateBody" });
 
@@ -59,5 +87,6 @@ export const siteSettingsSchema = z
 		timezone: z.string().optional(),
 		social: socialSettings.optional(),
 		seo: seoSettings.optional(),
+		marketplace: marketplaceSettings.optional(),
 	})
 	.meta({ id: "SiteSettings" });

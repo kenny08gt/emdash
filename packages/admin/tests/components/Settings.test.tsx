@@ -81,6 +81,7 @@ describe("Settings", () => {
 		);
 		await expect.element(screen.getByText("API Tokens")).toBeInTheDocument();
 		await expect.element(screen.getByText("Email", { exact: true })).toBeInTheDocument();
+		await expect.element(screen.getByText("Marketplace", { exact: true })).toBeInTheDocument();
 	});
 
 	it("security link shown when authMode is passkey", async () => {

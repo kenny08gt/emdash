@@ -43,6 +43,7 @@ import { AllowedDomainsSettings } from "./components/settings/AllowedDomainsSett
 import { ApiTokenSettings } from "./components/settings/ApiTokenSettings";
 import { EmailSettings } from "./components/settings/EmailSettings";
 import { GeneralSettings } from "./components/settings/GeneralSettings";
+import { MarketplaceSettings } from "./components/settings/MarketplaceSettings";
 import { SecuritySettings } from "./components/settings/SecuritySettings";
 import { SeoSettings } from "./components/settings/SeoSettings";
 import { SocialSettings } from "./components/settings/SocialSettings";
@@ -1088,6 +1089,13 @@ const emailSettingsRoute = createRoute({
 	component: EmailSettings,
 });
 
+// Marketplace settings route
+const marketplaceSettingsRoute = createRoute({
+	getParentRoute: () => adminLayoutRoute,
+	path: "/settings/marketplace",
+	component: MarketplaceSettings,
+});
+
 // General settings route
 const generalSettingsRoute = createRoute({
 	getParentRoute: () => adminLayoutRoute,
@@ -1525,6 +1533,7 @@ const adminRoutes = adminLayoutRoute.addChildren([
 	allowedDomainsSettingsRoute,
 	apiTokenSettingsRoute,
 	emailSettingsRoute,
+	marketplaceSettingsRoute,
 	wordpressImportRoute,
 	notFoundRoute,
 ]);
