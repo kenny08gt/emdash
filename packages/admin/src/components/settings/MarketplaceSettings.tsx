@@ -153,8 +153,8 @@ export function MarketplaceSettings() {
 				<p className="font-medium">Security notice</p>
 				<p className="mt-1">
 					Only use the official EmDash marketplace URL or registries you fully trust. Marketplace
-					requests are made by your server, so an untrusted registry can control metadata, downloads,
-					and update responses.
+					requests are made by your server, so an untrusted registry can control metadata,
+					downloads, and update responses.
 				</p>
 				<p className="mt-2">
 					Use HTTPS for production registries. Localhost HTTP URLs are intended only for local
