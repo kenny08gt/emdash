@@ -360,6 +360,7 @@ function ContentListPage() {
 			i18n={i18n}
 			activeLocale={activeLocale}
 			onLocaleChange={handleLocaleChange}
+			urlPattern={collectionConfig.urlPattern}
 		/>
 	);
 }
