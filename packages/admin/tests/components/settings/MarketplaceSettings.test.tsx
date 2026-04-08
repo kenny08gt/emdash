@@ -33,6 +33,9 @@ vi.mock("../../../src/lib/api", async () => {
 const { MarketplaceSettings } =
 	await import("../../../src/components/settings/MarketplaceSettings");
 
+const ACTIVE_BADGE_TEXT = /^Active$/;
+const OFFICIAL_LABEL_TEXT = /^Official$/;
+
 function Wrapper({ children }: { children: React.ReactNode }) {
 	const qc = new QueryClient({
 		defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
@@ -68,8 +71,8 @@ describe("MarketplaceSettings", () => {
 		await expect.element(screen.getByText("How registry selection works")).toBeInTheDocument();
 		await expect.element(screen.getByText("Security notice")).toBeInTheDocument();
 		await expect.element(screen.getByText("Select the active marketplace")).toBeInTheDocument();
-		await expect.element(screen.getByText(/^Active$/)).toBeInTheDocument();
-		await expect.element(screen.getByText(/^Official$/)).toBeInTheDocument();
+		await expect.element(screen.getByText(ACTIVE_BADGE_TEXT)).toBeInTheDocument();
+		await expect.element(screen.getByText(OFFICIAL_LABEL_TEXT)).toBeInTheDocument();
 		await expect.element(screen.getByText("https://marketplace.emdashcms.com")).toBeInTheDocument();
 	});
 
